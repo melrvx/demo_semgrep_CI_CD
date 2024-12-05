@@ -12,36 +12,30 @@ on:
 
 jobs:
   semgrep_scan:
-    # User definable name of this GitHub Actions job.
-    name: semgrep/ci
-    # If you are self-hosting, change the following `runs-on` value:
+    name: Semgrep CI
     runs-on: ubuntu-latest
     container:
-      # A Docker image with Semgrep installed. Do not change this.
       image: returntocorp/semgrep
-    # Skip any PR created by dependabot to avoid permission issues:
-    if: (github.actor != 'dependabot[bot]')
     permissions:
-      # required for all workflows
       security-events: write
-      # only required for workflows in private repositories
       actions: read
       contents: read
 
     steps:
-      # Fetch project source with GitHub Actions Checkout.
+      # Checkout repository.
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Perform Semgrep Analysis.
       - name: Perform Semgrep Analysis
-        # Simplified Semgrep command to directly show vulnerabilities in logs
         run: semgrep scan --pretty --config auto ./code_demo
 
-      # Optional: Save the log output as an artifact for further review
+      # Save SARIF results as an artifact.
       - name: Save Scan Results
+        run: semgrep scan --sarif --config auto ./code_demo > semgrep-results.sarif
+
+      - name: Upload SARIF results
         uses: actions/upload-artifact@v3
         with:
-          name: semgrep-scan-results
-          path: semgrep-results.txt
-        # The `run` command that creates the artifact file must be separated.
-        run: semgrep scan --config auto ./code_demo > semgrep-results.txt
+          name: semgrep-results
+          path: semgrep-results.sarif
