@@ -28,12 +28,13 @@ jobs:
 
       # Perform Semgrep Analysis.
       - name: Perform Semgrep Analysis
-        run: semgrep scan --pretty --config auto ./code_demo
+        run: semgrep scan --config auto ./code_demo
 
       # Save SARIF results as an artifact.
       - name: Save Scan Results
         run: semgrep scan --sarif --config auto ./code_demo > semgrep-results.sarif
 
+      # Upload SARIF results.
       - name: Upload SARIF results
         uses: actions/upload-artifact@v3
         with:
