@@ -43,5 +43,5 @@ jobs:
         with:
           name: semgrep-scan-results
           path: semgrep-results.txt
-        # Redirecting the output to a file for later retrieval
+        # The `run` command that creates the artifact file must be separated.
         run: semgrep scan --config auto ./code_demo > semgrep-results.txt
