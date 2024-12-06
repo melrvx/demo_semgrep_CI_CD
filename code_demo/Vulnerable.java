@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
-public class VulnerableApp {
+public class Vulnerable {
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Enter your username: ");
@@ -42,3 +42,4 @@ public class VulnerableApp {
         // SELECT * FROM users WHERE username = 'admin' -- ' AND password = ''
     }
 }
+
